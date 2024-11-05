@@ -2,14 +2,14 @@ import pandas as pd
 import os
 
 # Load the CSV data
-file_path = r'C:\Users\Lane\Downloads\Accounts_History (6).csv'  # Update this path as needed
+file_path = 'Accounts_History_2021.csv.csv'  # Update this path as needed
 data = pd.read_csv(file_path)
 
 # Step 1: Remove any leading/trailing whitespace from all string columns
 data = data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
 # Step 2: Remove rows where 'ticker' is NaN to clean extraneous text
-data = data.dropna(subset=['Symbol'])  # 'Symbol' is renamed to 'ticker' later in Step 2
+data = data.dropna(subset=['Symbol'])  # 'Symbol' is renamed to 'ticker' later in Step 3
 
 # Step 3: Rename columns
 rename_columns = {
