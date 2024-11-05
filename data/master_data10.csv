@@ -1,4 +1,4 @@
-Symbol,Asset Name,Sector,Industry,First Traded,Index Inclusion
+symbol,asset_name,sector,industry,first_traded,index_inclusion
 AAPL,APPLE INC,Technology,Consumer Electronics,1980-12-12,1982-11-30
 NVDA,NVIDIA CORP,Technology,Semiconductors,1999-01-22,2001-11-30
 MSFT,MICROSOFT CORP,Technology,Software - Infrastructure,1986-03-13,1994-06-01
@@ -2670,7 +2670,6 @@ CHRS,COHERUS BIOSCIENCES INC,Healthcare,Biotechnology,2014-11-06,
 RAPT,RAPT THERAPEUTICS INC,Healthcare,Biotechnology,2019-10-31,
 HLVX,HILLEVAX INC,Healthcare,Biotechnology,2022-04-29,
 CPS,COOPER STANDARD HOLDINGS INC,Consumer Cyclical,Auto Parts,2010-05-25,
-INBX,INHIBRX INC CVR,Healthcare,Biotechnology,2024-06-04,
 BLUE,BLUEBIRD BIO INC,Healthcare,Biotechnology,2013-06-19,
 WLLBW,CHORD ENERGY EQUITY WARRANTS SERIE,Energy,Oil & Gas E&P,2020-09-04,
 STX,Seagate Technology Holdings plc,Technology,Computer Hardware,2002-12-11,
