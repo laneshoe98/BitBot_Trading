@@ -14,7 +14,7 @@ db_host = os.getenv('DB_HOST')
 db_port = os.getenv('DB_PORT')
 db_name = os.getenv('DB_NAME')
 
-# Load master_data9.csv as a DataFrame
+# Load .csv file as a DataFrame
 file_path = r'C:\Users\Lane\Documents\Projects\trading_bot\data\master_data9_copy.csv'  # Update with the actual path
 data = pd.read_csv(file_path)
 
