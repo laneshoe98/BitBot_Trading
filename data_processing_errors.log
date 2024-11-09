@@ -1,0 +1,1 @@
+2024-11-08 17:02:41,908 ERROR:Error during master data update: string indices must be integers, not 'str'
