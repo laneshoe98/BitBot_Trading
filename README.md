@@ -1,96 +1,48 @@
-#Data Science Process
-[Fourth, format and split dream data into 3 sections
-    Sections 1 and 2 are for training (80%)
-    Section 3 is for testing (20%)
-Fifth, run analytics on the data
-    Supervised learning Techniques
-        Continuous (Regression techniques)
-            Start with linear Regression
-            Move on to regularized regression
-                Ridge Regression
-                Lasso Regression
-        Classification (Classification techniques)
-            Start with Logistic Regression
-            Move on to tree based models
-                Random Forests
-                Gradient Boosting
-    Unsupervised learning Techniques
-        Grouping Data Points (Clustering Technique)
-            Start with K-Means Clustering
-                Move on to Hierachical CLustering
-                DBSCAN
-                HMM? 
-        Reducing Features (Dimensionality Reduction Technique)
-            Start with Principlal Component Analysis (PCA)
-                Move on to T-SNE for data visualization
-                Or use Topic Modeling Techniques for text data
-]
+# Automated Stock Trading and Growth Analysis Bot
 
+## Overview
+This project aims to build a sophisticated trading robot capable of analyzing the growth cycles of approximately 3,000 mid-cap to mega-cap companies. The robot focuses on capturing insights about how companies evolve through different market caps and growth phases, from early stages to conglomerates. By modeling price action and identifying unique cases—such as NVIDIA, a semiconductor company with growth tech behaviors—the project provides insights that enable:
 
-#Roadmap: Steps for Integration and Synchronization
+- **Short-term trades** executed by the robot, typically held for less than a year.
+- **Long-term investments** managed through in-depth data analysis, held for more than a year.
 
-[Step 1: Define and Set Up Table Relationships (Schema Design)
-Goal: Ensure that each table is structured with unique identifiers (symbol or company_id), establishing foreign key relationships where needed.
-Action: Confirm that tracked_companies and asset_ledger tables link by symbol (or another unique identifier).
-Output: A reliable reference key structure that allows cross-table queries.
+The goal is to apply and test 4 to 10 trading strategies across various stock sets, with some overlap, creating a robust framework for understanding different market dynamics.
 
-Step 2: Insert Data into asset_ledger Table (Initial Population)
-Goal: Load initial buy and sell data into the asset_ledger table if it isn’t already populated.
-Action: Use your existing code to populate this data table.
-Output: asset_ledger contains accurate and complete transaction data for each symbol.
+## Features
+1. **Financial Data Collection**
+   - Gather detailed financial and stock data on 3,000+ mid-cap and above companies.
+   - Store data for long-term analysis and modeling of growth phases.
 
-Step 3: Sync purchase_history JSONB in tracked_companies with asset_ledger
-Goal: Consolidate transaction data from asset_ledger into the purchase_history JSONB column in tracked_companies.
-Action:
-Write a function that queries asset_ledger by symbol and compiles an array of buy and sell records.
-Populate purchase_history in tracked_companies with a JSON structure, e.g., [{date: 'YYYY-MM-DD', type: 'buy/sell', amount: XX, price: YY}, ...].
-Output: A JSONB object in each tracked_companies row containing a record of transactions.
+2. **Growth Cycle Modeling**
+   - Analyze how companies transition through growth phases, capturing distinctions between:
+      - Mid-cap to mega-cap growth
+      - Pivot strategies at significant size thresholds (e.g., companies reaching $500 billion+ market cap)
+   - Identify unique behaviors, such as semiconductors that follow tech growth patterns.
 
-Step 4: Calculate initial_investment in tracked_companies from purchase_history
-Goal: Use purchase_history JSONB to calculate and populate the initial investment amount for each symbol.
-Action:
-Write a function that parses purchase_history for buy transactions and calculates initial_investment as the sum of all initial purchase values.
-Insert this calculated value into the initial_investment column in tracked_companies.
-Output: initial_investment populated with cumulative initial purchase values.
+3. **Multi-Strategy Trading**
+   - Implement and test multiple trading strategies (4-10) based on:
+      - Price action trends
+      - Company growth cycles
+      - Sector-specific cycles and macroeconomic indicators
+   - Apply overlapping and independent strategies across various stock sets.
 
-Step 5: Fetch current_price and market_cap_history from yfinance
-Goal: Use yfinance to fetch and update current_price and market_cap_history.
-Action:
-Write a script that fetches current_price and market_cap for each symbol and updates tracked_companies.
-For market_cap_history, store values as JSONB, structured by date, e.g., {"2023-01-01": 5000000000, ...}.
-Output: current_price and market_cap_history populated in tracked_companies.
+4. **Short-Term and Long-Term Strategy Integration**
+   - **Robot-Managed Trades**: Execute trades lasting under a year, using high-frequency signals and data.
+   - **User-Managed Investments**: Identify long-term investment opportunities, driven by growth cycle analysis.
 
-Step 6: Calculate total_return_dollars and total_return_percent in tracked_companies
-Goal: Use purchase_history and current_price to calculate returns.
-Action:
-Calculate total_return_dollars as current_price * quantity_held - initial_investment.
-Calculate total_return_percent as (total_return_dollars / initial_investment) * 100.
-Populate tracked_companies with these values.
-Output: total_return_dollars and total_return_percent columns filled out.
+## Installation
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+   
+2. Set Up a Virtual Environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows, use venv\Scripts\activate
 
-Step 7: Automatically Update last_updated with current_price Changes
-Goal: Whenever current_price is updated, set last_updated to the current timestamp.
-Action:
-Add a line in your current_price update script to update last_updated with the timestamp.
-Output: last_updated column reflects the most recent update for each company’s price.
+4. Install Dependencies
+pip install pandas numpy matplotlib scikit-learn sqlalchemy
 
-Step 8: Populate price_action with Daily Candle Data
-Goal: Populate price_action JSONB with daily OHLCV data for each symbol.
-Action:
-Write a yfinance script to fetch daily price data (OHLC and volume) and store it in price_action, structured by date (e.g., {"2023-01-01": {"open": XX, "high": YY, "low": ZZ, "close": AA, "volume": BB}}).
-Use a chunked approach if needed, with one JSONB object per year.
-Output: price_action column populated with historical daily data.
-
-Step 9: Enhance price_action with High-Frequency Data for Selected Symbols
-Goal: For high-priority stocks, supplement daily data with more granular (15-minute or 1-minute) data.
-Action:
-Modify the price_action fetching script to get high-frequency data for selected symbols.
-Organize this data in the JSONB field by timestamp, e.g., {"2023-01-01 09:30": {"open": XX, "high": YY, "low": ZZ, "close": AA, "volume": BB}}.
-Output: price_action contains granular data for selected stocks.
-
-Step 10: Automate Updates and Run as a Routine Job
-Goal: Regularly update current_price, market_cap_history, and recalculate values in tracked_companies to keep data fresh.
-Action:
-Set up a cron job or scheduling service to run Steps 5–7 periodically.
-Output: Automatic updates for key fields in tracked_companies, keeping all data current.
-]
+5. Database Setup
+    Install PostgreSQL and create a database.
+    Configure your database credentials (we can add this to a config file as the project grows).
