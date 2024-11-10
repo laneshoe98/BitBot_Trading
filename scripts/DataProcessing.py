@@ -28,33 +28,91 @@ db_name = os.getenv('DB_NAME')
 # Database engine for PostgreSQL connection
 engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}')
 
+# Paths for input, output, and master files
+new_data_paths = [
+    'data/Accounts_History_2021.csv',
+    'data/Accounts_History_2022.csv',
+    'data/Accounts_History_2023.csv',
+    'data/Accounts_History_2024.csv'
+]
+cleaned_data_dir = 'data/cleaned/'
+master_data_path = 'master_data69.csv'
 
-# ========== FUNCTION DEFINITIONS ==========
+# ========== VERSION INCREMENT FUNCTION ==========
+def increment_filename_version(file_path):
+    """Increments the version number in a file name."""
+    path = Path(file_path)
+    base_name = path.stem
+    version_num = ''.join(filter(str.isdigit, base_name))
+    version = int(version_num) if version_num else 0
+    new_version = version + 1
+    new_name = base_name.rstrip('0123456789') + str(new_version)
+    if DEBUG and DEBUG_LEVEL >= 1:
+        print(f"[DEBUG] New versioned filename: {new_name}")
+    return path.with_name(new_name).with_suffix(path.suffix)
 
-def clean_fidelity_data(incoming_data_paths, cleaned_output_path):
-    """Clean incoming Fidelity data files and consolidate them into a single file."""
-    combined_data = pd.DataFrame()
-    for path in incoming_data_paths:
+# ========== DATA CLEANING FUNCTION ==========
+def clean_data(file_paths, cleaned_dir):
+    """Cleans multiple Fidelity data files, combines them into one consolidated file, 
+    and saves it as cleaned_account_history_<timestamp>.csv."""
+    combined_data = []  # List to store each cleaned DataFrame
+
+    for file_path in file_paths:
         try:
-            df = pd.read_csv(path)
-            df.columns = df.columns.str.strip()
-            df.fillna(0, inplace=True)
-            combined_data = pd.concat([combined_data, df], ignore_index=True)
-            if DEBUG and DEBUG_LEVEL >= 2:
-                print(f"[DEBUG] Processed file: {path}, Rows added: {df.shape[0]}")
-        except Exception as e:
-            logging.error(f"Error processing file {path}: {e}")
+            data = pd.read_csv(file_path)
+            if DEBUG and DEBUG_LEVEL >= 1:
+                print(f"[DEBUG] Loaded {file_path} with {data.shape[0]} rows")
 
-    cleaned_filepath = os.path.join(cleaned_output_path, f'cleaned_ledger_data_{datetime.now().strftime("%Y%m%d")}.csv')
-    combined_data.to_csv(cleaned_filepath, index=False)
-    print(f"Cleaned ledger data saved to: {cleaned_filepath}")
-    review = input(f"Review the cleaned data at {cleaned_filepath}. Proceed? (y/n): ").strip().lower()
+            # Standard cleaning process: remove extra spaces, drop rows with no symbol, rename columns
+            data = data.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
+            data = data.dropna(subset=['Symbol'])
+            
+            rename_columns = {
+                'Run Date': 'transaction_date', 'Account': 'portfolio_name', 'Action': 'notes', 
+                'Symbol': 'symbol', 'Description': 'asset_name', 'Quantity': 'quantity', 
+                'Price': 'price', 'Amount': 'transaction_amount', 'Commission': 'commission', 'Fees': 'fees'
+            }
+            data = data.rename(columns=rename_columns)
+            data['commission'] = data['commission'].fillna(0)
+            data['fees'] = data['fees'].fillna(0)
+
+            # Drop columns we don't need for the master data
+            data.drop(columns=['Type', 'Exchange Quantity', 'Exchange Currency', 'Currency', 'Exchange Rate', 
+                               'Accrued Interest', 'Settlement Date'], inplace=True, errors='ignore')
+            
+            # Keep only the columns we want in the final version
+            final_columns_order = ['symbol', 'asset_name', 'quantity', 'price', 'transaction_amount', 
+                                   'commission', 'fees', 'portfolio_name', 'transaction_date', 'notes']
+            data = data[final_columns_order]
+
+            # Ensure transaction dates are in a uniform format
+            data['transaction_date'] = pd.to_datetime(data['transaction_date'], format='%m/%d/%Y').dt.strftime('%Y-%m-%d')
+            data['symbol'] = data['symbol'].str.lstrip('-')  # Remove any leading dashes from symbols
+
+            # Append the cleaned DataFrame to the combined list
+            combined_data.append(data)
+
+        except Exception as e:
+            logging.error(f"Error during data cleaning for {file_path}: {e}")
+            if DEBUG and DEBUG_LEVEL >= 2:
+                print(f"[DEBUG] Error during data cleaning for {file_path}: {e}")
+
+    # Concatenate all cleaned data files into a single DataFrame
+    consolidated_data = pd.concat(combined_data, ignore_index=True)
+    
+    # Generate a timestamped filename and save the consolidated data
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    consolidated_file_path = os.path.join(cleaned_dir, f"cleaned_account_history_{timestamp}.csv")
+    consolidated_data.to_csv(consolidated_file_path, index=False)
+    
+    print(f"Consolidated cleaned data saved as: {consolidated_file_path}")
+    review = input(f"Review the cleaned data at {consolidated_file_path}. Proceed? (y/n): ").strip().lower()
     if review != 'y':
         print("Terminating program as per user request.")
         exit()
-    return combined_data
+    return consolidated_data
 
-
+# ========== MASTER DATA UPDATE FUNCTION ==========
 def update_master_data(cleaned_data, master_data_path, output_master_data_path):
     """Update the master_data69 file with new unique symbols."""
     try:
@@ -79,6 +137,7 @@ def update_master_data(cleaned_data, master_data_path, output_master_data_path):
         logging.error(f"Error updating master data: {e}")
 
 
+# ========== ENRICH MASTER DATA FUNCTION ==========
 def enrich_master_data(master_data):
     """Enrich master_data69 with additional data from Yahoo Finance."""
     enriched_data = master_data.copy()
@@ -102,6 +161,7 @@ def enrich_master_data(master_data):
     return enriched_data
 
 
+# ========== DATABASE UPLOAD FUNCTION ==========
 def upload_to_database(data):
     """Upload the enriched master_data69 to PostgreSQL database."""
     try:
