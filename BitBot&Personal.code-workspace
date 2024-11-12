@@ -1,10 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../Personal"
-		}
-	]
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "path": "../Personal"
+        }
+    ]
 }
