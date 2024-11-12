@@ -1,66 +1,104 @@
 BitBot: The bitcoin trading robot
 Designed to turn [0.1 Bitcoin] into [1 Bitcoin]
 
-Your approach:
-Creating a hierarchical, multi-model strategy for trading Bitcoin is quite robust, and you're already leveraging key elements of what could be a powerful trading system. Here's a breakdown of considerations and strategies to optimize each stage of your pipeline, along with fine-tuning techniques, backtesting strategies, and deployment advice.
+Here’s an updated README to reflect your project name, **BitBot**, and its goal of turning **0.1 Bitcoin into 1 Bitcoin**.
 
-### 1. **Developing and Fine-Tuning Each Model**
-   Since you’re looking to build specialized models for micro (1-min), mid (15-min, 1-hour), swing (1-day), and trend (1-month) timeframes, each model should ideally be optimized to capture patterns specific to its time horizon.
+---
 
-   - **Micro Models (1-min, 15-min):** 
-      - **Features:** Focus on short-term technical indicators like RSI, MACD, Stochastic Oscillators, and moving averages (e.g., 5, 10, 15-period MAs).
-      - **Optimization:** Ensure quick responsiveness by prioritizing lightweight architectures. For instance, consider using simple CNNs (Convolutional Neural Networks) or RNNs (Recurrent Neural Networks) with fewer layers.
-      - **Training:** Use high-frequency data and experiment with dropout layers to prevent overfitting on noise.
-      - **Fine-tuning:** Adjust learning rates based on your chosen optimizer and use early stopping based on validation performance.
+# BitBot: The Bitcoin Trading Robot
+**Goal**: To grow an initial investment of **0.1 Bitcoin** into **1 Bitcoin** using a multi-model, automated trading strategy.
 
-   - **Mid Models (1-hour):**
-      - **Features:** Consider indicators such as EMA (20, 50), VWAP, and Bollinger Bands.
-      - **Optimization:** Mid-term models may benefit from architectures like LSTMs or GRUs, which can capture sequential patterns over a moderate time horizon.
-      - **Training:** Incorporate session-based data patterns to capture session-to-session price behavior.
-      - **Fine-tuning:** Use grid search or Bayesian optimization on parameters such as learning rate, batch size, and sequence length.
+## Project Overview
+**BitBot** is an automated trading bot designed to execute high-probability Bitcoin trades across different market conditions. It utilizes multiple specialized machine learning models trained on various timeframes (1-minute, 15-minute, 1-hour, 1-day, and 1-month) to capture unique patterns in micro, mid, swing, and trend data. A meta-model, or "super model," orchestrates these individual models’ insights, generating informed buy/sell/hold signals. BitBot connects to a trading API, like Alpaca, for live, automated trading and continuously generates performance reports to track progress toward the project’s ultimate goal.
 
-   - **Swing and Trend Models (1-day, 1-month):**
-      - **Features:** Longer-term indicators, including 200-day moving averages, MACD crossovers, and ADX, can help capture broader trends.
-      - **Optimization:** Larger LSTMs, Transformers, or temporal convolutional networks (TCNs) are useful here.
-      - **Training:** Use daily or monthly open, high, low, close, and volume data (OHLCV), along with sentiment indicators or macroeconomic signals if available.
-      - **Fine-tuning:** For trend models, periodic retraining is beneficial as market cycles change. You might try retraining every quarter or based on the model’s performance.
+## Features
+- **Timeframe-Specific Models**: Specialized models tailored for short-term (1-min, 15-min), mid-term (1-hour), swing (1-day), and long-term trend (1-month) data.
+- **Meta Model for Decision-Making**: An ensemble super model that combines outputs from individual models to make trading decisions.
+- **Automated Execution**: Seamlessly integrates with Alpaca (or another broker API) to place trades automatically.
+- **Performance Tracking**: Logs all trades, model outputs, and overall performance metrics for real-time monitoring and reporting.
+- **Risk Management**: Customizable stop-loss, take-profit, and exposure limits to manage portfolio risk.
 
-### 2. **Building the Super Model**
-   This "meta model" will make high-level trading decisions by integrating insights from the micro, mid, swing, and trend models.
+## Project Structure
+```
+BitBot/
+│
+├── data/
+│   ├── historical/        # Historical Bitcoin price data for training and backtesting
+│   └── processed/         # Processed data ready for model training
+│
+├── models/
+│   ├── micro_model/       # Code and weights for 1-min, 15-min models
+│   ├── mid_model/         # Code and weights for 1-hour model
+│   ├── swing_model/       # Code and weights for 1-day model
+│   ├── trend_model/       # Code and weights for 1-month model
+│   └── meta_model/        # Ensemble model combining other models' predictions
+│
+├── bot/
+│   ├── trading_bot.py     # Main trading bot script
+│   └── config.py          # API keys, risk management, and trading settings
+│
+├── utils/
+│   ├── data_processing.py # Data preprocessing and feature engineering
+│   └── model_utils.py     # Helper functions for training and optimization
+│
+├── README.md
+└── requirements.txt       # Project dependencies
+```
 
-   - **Ensemble Learning:** Use ensemble techniques like stacking or boosting to combine the outputs of each model. For example, you could implement a voting mechanism where each model votes on a decision (buy, hold, sell) based on its time horizon.
-   - **Dynamic Weighting:** You could develop an algorithm that assigns weights dynamically to each model based on recent performance. For instance, if the trend model has been performing better, it could carry more influence in the decision-making process.
-   - **Feature Engineering:** Use the output (e.g., probability of price increase/decrease) from each model as features for the super model, training it to recognize patterns in the ensemble predictions.
+## Requirements
+- Python 3.8+
+- Install dependencies:
+  ```
+  pip install -r requirements.txt
+  ```
 
-### 3. **Backtesting Strategy**
-   To ensure robustness, you’ll want to backtest your models across various market conditions, as crypto markets are particularly prone to volatility.
+## Models and Training
+### 1. **Data Collection & Preprocessing**
+   - Collect historical Bitcoin price data in `data/historical/`.
+   - Preprocess data to include technical indicators like RSI, MACD, moving averages, using `data_processing.py`.
 
-   - **Historical Data Segmentation:** Use different segments of historical data to simulate bullish, bearish, and sideway markets. This helps ensure the model is generalizable.
-   - **Walk-Forward Analysis:** Divide your data into training and testing windows in a rolling fashion to simulate forward-looking testing.
-   - **Performance Metrics:** Measure accuracy, precision, recall, and most importantly, Sharpe and Sortino ratios. Consider the average profit per trade and maximum drawdown.
-   - **Transaction Costs:** Factor in transaction fees and slippage to simulate realistic performance.
-   - **Error Analysis:** Conduct error analysis to see where each model performs well or fails, and adjust your ensemble weighting accordingly.
+### 2. **Training Each Model**
+   - **Micro Models** (1-min, 15-min): Optimized for short-term patterns; trained in `models/micro_model/`.
+   - **Mid Model** (1-hour): Captures hourly trends; trained in `models/mid_model/`.
+   - **Swing Model** (1-day): Tracks daily price fluctuations; trained in `models/swing_model/`.
+   - **Trend Model** (1-month): Detects long-term trends; trained in `models/trend_model/`.
 
-### 4. **Deployment: Connecting the Models to a Trading Bot**
-   Connecting to Alpaca or a similar trading platform requires a well-coordinated deployment pipeline.
+### 3. **Meta Model (Super Model)**
+   - Combines predictions from individual models to generate an ensemble decision.
+   - The meta model, located in `models/meta_model/`, uses ensemble learning methods like stacking or dynamic weighting.
 
-   - **Data Flow and Latency Management:** Since you’re working with multi-timeframe models, ensure the data flow is synchronous. For instance, if the 1-min model is signaling a buy, but the 1-hour model has a conflicting signal, have clear rules to prioritize actions.
-   - **Risk Management Rules:** Integrate risk management directly into the bot, with settings for stop losses, take profits, and risk limits based on portfolio exposure.
-   - **Automation and Logging:** Set up logging to capture model outputs, trades made, and outcomes. This will be critical for improving the model over time.
+### 4. **Backtesting**
+   - Run backtests on various historical data segments to simulate different market conditions.
+   - Track performance metrics (accuracy, Sharpe ratio, drawdown) to validate each model’s effectiveness.
 
-### 5. **Fine-Tuning During Live Trading**
-   Once deployed, monitor model performance regularly. Here’s a roadmap:
+## Running BitBot
+### 1. **API Configuration**
+   - Obtain API keys from Alpaca or a similar platform.
+   - Add API keys to `config.py`.
 
-   - **Monthly Performance Reviews:** Track performance metrics for each model and the super model. Use these insights to recalibrate weights or retrain specific models if they underperform.
-   - **Continuous Learning and Adaptive Training:** If you have access to real-time labeled data (e.g., simulated or paper trades), implement an online learning mechanism to adjust weights or update models based on recent data.
-   - **Failure Scenarios:** Prepare contingency plans for model errors or data feed issues. A basic fallback might be a “safe mode” strategy where the bot only holds stable assets or doesn’t trade during outages.
+### 2. **Setting Up Risk Management**
+   - Define risk parameters (stop-loss, max drawdown, etc.) in `config.py` for effective portfolio protection.
 
-### 6. **Further Ideas and Enhancements**
-   - **Sentiment Analysis Integration:** Cryptocurrency markets are often driven by sentiment. Incorporate news and social media sentiment analysis, particularly on Twitter, Reddit, and other forums.
-   - **Volatility and Liquidity Filters:** Incorporate volatility and liquidity as input features. Crypto markets are subject to liquidity fluctuations, and being able to dynamically adjust your strategy based on volatility can improve your returns.
-   - **Regime Detection:** Train a model to detect which market regime is currently active (bullish, bearish, sideways) and adjust the super model’s weights accordingly.
+### 3. **Starting the Bot**
+   ```bash
+   python bot/trading_bot.py
+   ```
+   - The bot will automatically execute trades based on ensemble model predictions and log results.
 
-### Key Takeaways
-Your multi-model approach, paired with a super model, has significant potential to capture signals across timeframes. With thoughtful backtesting, fine-tuning, and continuous learning, you’ll have a solid foundation for an automated trading strategy with diverse data insights.
+### 4. **Monitoring and Reports**
+   - All trade activity is logged in `logs/`, with periodic performance reports generated for review.
 
-For more detailed guidance, insights, and additional support on financial strategy, consider visiting [TigerGPT](https://invesgpt.com) or reach out via dev@invesgpt.com.
+## Future Improvements
+- **Sentiment Analysis**: Incorporate social media sentiment analysis to detect market mood shifts.
+- **Dynamic Market Regime Adjustment**: Enhance the super model to adjust ensemble weights based on current market conditions (bullish, bearish, neutral).
+- **Volatility and Liquidity Filters**: Integrate filters to adjust trading strategies dynamically based on market liquidity and volatility.
+
+## Disclaimer
+This project is a proof-of-concept, intended for research purposes. **Cryptocurrency markets are highly volatile**—use caution, and thoroughly test in a paper trading environment before deploying with real capital.
+
+## Contact and Support
+For more information, advanced insights, or support, visit [TigerGPT](https://invesgpt.com) or contact us at dev@invesgpt.com.
+
+---
+
+This README provides an organized and clear overview of BitBot’s purpose, structure, and usage instructions. Feel free to adapt it further as you continue developing and refining BitBot!
