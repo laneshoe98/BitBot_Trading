@@ -1,0 +1,39 @@
+2024-11-10 22:41:20,841 ERROR:Error during data cleaning for data/Accounts_History_2021.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2021.csv'
+2024-11-10 22:41:20,841 ERROR:Error during data cleaning for data/Accounts_History_2022.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2022.csv'
+2024-11-10 22:41:20,842 ERROR:Error during data cleaning for data/Accounts_History_2023.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2023.csv'
+2024-11-10 22:41:20,842 ERROR:Error during data cleaning for data/Accounts_History_2024.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2024.csv'
+2024-11-10 22:49:07,751 ERROR:$92919V108: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:08,023 ERROR:FBGRX: Period '1d' is invalid, must be one of ['1mo', '3mo', '6mo', 'ytd', '1y', '2y', '5y', '10y', 'max']
+2024-11-10 22:49:09,810 ERROR:$54405Q100: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:10,734 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/18716C100?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=18716C100&crumb=uCW2xVOpaQf
+2024-11-10 22:49:12,474 ERROR:$18716C100: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:13,339 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/362307100?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=362307100&crumb=uCW2xVOpaQf
+2024-11-10 22:49:14,793 ERROR:$362307100: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:17,221 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/FL250620C15?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=FL250620C15&crumb=uCW2xVOpaQf
+2024-11-10 22:49:18,864 ERROR:$FL250620C15: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:20,833 ERROR:$00507V109: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:23,335 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=&crumb=uCW2xVOpaQf
+2024-11-10 22:49:24,205 ERROR:Error fetching data for IYR250117P95: Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}
+2024-11-10 22:49:26,488 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/SPY240930P540?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=SPY240930P540&crumb=uCW2xVOpaQf
+2024-11-10 22:49:28,303 ERROR:$SPY240930P540: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-10 22:49:31,768 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=&crumb=uCW2xVOpaQf
+2024-11-10 22:49:31,769 ERROR:Error fetching data for CMG261218P50: Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}
+2024-11-10 22:49:33,679 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=&crumb=uCW2xVOpaQf
+2024-11-10 22:49:33,680 ERROR:Error fetching data for CMG260116P50: Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}
+2024-11-10 22:49:43,836 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=&crumb=uCW2xVOpaQf
+2024-11-10 22:49:43,836 ERROR:Error fetching data for CMG250620P55: Failed to parse json response from Yahoo Finance: {'code': 'Not Found', 'description': 'HTTP 404 Not Found'}
+2024-11-10 22:49:46,334 ERROR:$05353D103: possibly delisted; no price data found  (period=1d) (Yahoo error = "No data found, symbol may be delisted")
+2024-11-12 11:25:19,222 ERROR:Error during data cleaning for data/Accounts_History_2021.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2021.csv'
+2024-11-12 11:25:19,222 ERROR:Error during data cleaning for data/Accounts_History_2022.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2022.csv'
+2024-11-12 11:25:19,222 ERROR:Error during data cleaning for data/Accounts_History_2023.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2023.csv'
+2024-11-12 11:25:19,222 ERROR:Error during data cleaning for data/Accounts_History_2024.csv: [Errno 2] No such file or directory: 'data/Accounts_History_2024.csv'
+2024-11-12 11:27:02,427 ERROR:Error during data cleaning for data/raw/Accounts_History_2021.csv: [Errno 2] No such file or directory: 'data/raw/Accounts_History_2021.csv'
+2024-11-12 11:27:02,428 ERROR:Error during data cleaning for data/raw/Accounts_History_2022.csv: [Errno 2] No such file or directory: 'data/raw/Accounts_History_2022.csv'
+2024-11-12 11:27:02,428 ERROR:Error during data cleaning for data/raw/Accounts_History_2023.csv: [Errno 2] No such file or directory: 'data/raw/Accounts_History_2023.csv'
+2024-11-12 11:27:02,428 ERROR:Error during data cleaning for data/raw/Accounts_History_2024.csv: [Errno 2] No such file or directory: 'data/raw/Accounts_History_2024.csv'
+2024-11-12 11:35:30,325 ERROR:$92919V108: possibly delisted; no timezone found
+2024-11-12 11:35:32,247 ERROR:$54405Q100: possibly delisted; no timezone found
+2024-11-12 11:35:33,255 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/18716C100?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=18716C100&crumb=iMrp909oTPc
+2024-11-12 11:35:34,453 ERROR:$18716C100: possibly delisted; no timezone found
+2024-11-12 11:35:35,303 ERROR:404 Client Error: Not Found for url: https://query2.finance.yahoo.com/v10/finance/quoteSummary/362307100?modules=financialData%2CquoteType%2CdefaultKeyStatistics%2CassetProfile%2CsummaryDetail&corsDomain=finance.yahoo.com&formatted=false&symbol=362307100&crumb=iMrp909oTPc
+2024-11-12 11:35:36,219 ERROR:$362307100: possibly delisted; no timezone found
