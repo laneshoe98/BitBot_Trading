@@ -22,27 +22,41 @@ Here’s an updated README to reflect your project name, **BitBot**, and its goa
 ```
 BitBot/
 │
+├── bot/
+│   ├── config.py          # API keys, risk management, and trading settings
+│   └── trading_bot.py     # Main trading bot script
+│
 ├── data/
 │   ├── historical/        # Historical Bitcoin price data for training and backtesting
 │   └── processed/         # Processed data ready for model training
 │
+├── docs/                  # Detailed documentation for model design, usage, etc.
+│   ├── architecture.md    # Detailed explanations of the models and trading logic
+│   └── setup_guide.md     # Guide for installation and setup
+│
+├── logs/                  # Logs for trades, errors, and model training
+│
 ├── models/
+│   ├── meta_model/        # Ensemble model combining other models' predictions
 │   ├── micro_model/       # Code and weights for 1-min, 15-min models
 │   ├── mid_model/         # Code and weights for 1-hour model
 │   ├── swing_model/       # Code and weights for 1-day model
-│   ├── trend_model/       # Code and weights for 1-month model
-│   └── meta_model/        # Ensemble model combining other models' predictions
-│
-├── bot/
-│   ├── trading_bot.py     # Main trading bot script
-│   └── config.py          # API keys, risk management, and trading settings
-│
-├── utils/
-│   ├── data_processing.py # Data preprocessing and feature engineering
-│   └── model_utils.py     # Helper functions for training and optimization
+│   └── trend_model/       # Code and weights for 1-month model
 │
 ├── README.md
-└── requirements.txt       # Project dependencies
+│
+├── reports/               # Performance summaries and analytics reports
+│
+├── requirements.txt       # Project dependencies
+│
+├── tests/                 # Unit and integration tests for all modules
+│   ├── test_data_processing.py
+│   ├── test_models.py
+│   └── test_trading_bot.py
+│
+└── utils/
+    ├── data_processing.py # Data preprocessing and feature engineering
+    └── model_utils.py     # Helper functions for training and optimization
 ```
 
 ## Requirements
